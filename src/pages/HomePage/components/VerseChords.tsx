@@ -7,7 +7,8 @@ type VerseChordsProps = {
 }
 
 export const VerseChords = (
-    { ref, chordsText, mousePosition, ...props } : VerseChordsProps & React.HTMLAttributes<HTMLDivElement>) => {
+    { ref, chordsText, mousePosition, ...props } : VerseChordsProps & React.HTMLAttributes<HTMLDivElement>
+) => {
 
     return (
         <div 
