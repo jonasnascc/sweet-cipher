@@ -4,6 +4,9 @@ export const useCipherChords = (text:string) => {
     const verseDivRef = useRef<HTMLDivElement>(null)
     const verseChordsDivRef = useRef<HTMLDivElement>(null)
 
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    const [isMouseHovering, setIsMouseHovering] = useState(false)
+
     const [chordsText, setChordsText] = useState("")
 
     const [mousePosition, setMousePosition] = useState<{px:number, index:number}>({px:-1, index:-1})
@@ -36,6 +39,9 @@ export const useCipherChords = (text:string) => {
     }
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if(isPopoverOpen) return;
+        setIsMouseHovering(true)
+
         const rect = e.currentTarget.getBoundingClientRect();
 
         let spaceWidth = rect.width/chordsText.length
@@ -47,18 +53,30 @@ export const useCipherChords = (text:string) => {
         setMousePosition({index: charIndex, px: ~~(spaceWidth*charIndex)})
     };
 
-    const handleMouseClick = () => {
-        const newText = chordsText.split("").map((char, i)=> i===mousePosition.index ? "*":char).join("")
-        
+    const handleMouseLeave = () => {
+        setIsMouseHovering(false)
+    }
+
+    const handleMouseClick = (state:boolean) => {
+        setIsPopoverOpen(state)
+    }
+
+    const onPickChord = (chord:string) => {
+        const newText = chordsText.split("").map((char, i)=> i===mousePosition.index ? chord : char).join("")
         setChordsText(newText)
+        setIsPopoverOpen(false)
     }
 
     return {
+        isPopoverOpen,
+        isMouseHovering,
         chordsText,
         verseDivRef,
         verseChordsDivRef,
         mousePosition,
+        handleMouseLeave,
         handleMouseClick,
-        handleMouseMove
+        handleMouseMove,
+        onPickChord
     }
 }
