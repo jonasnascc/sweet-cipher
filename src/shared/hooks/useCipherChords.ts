@@ -12,7 +12,7 @@ export const useCipherChords = (text:string) => {
 
     useEffect(() => {
         handleChordsTextChange()
-      }, [chordsText]);
+    }, [chordsText]);
 
     const handleChangeText = (text:string) => {
         setChordsText(" ".repeat(text.length))
@@ -25,7 +25,7 @@ export const useCipherChords = (text:string) => {
         const verseWidth = verseDiv.getBoundingClientRect().width
         const chordsWidth = verseChordsDiv.getBoundingClientRect().width
         
-        if(chordsWidth > verseWidth) return;
+        if(chordsWidth > verseWidth || chordsWidth==0 || verseWidth == 0) return;
 
         const diff = Math.abs(verseWidth - chordsWidth)
         
