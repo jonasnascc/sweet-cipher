@@ -3,20 +3,22 @@ import { Ref } from "react";
 import { ChordPopover } from "./ChordPopover";
 
 type VerseChordsProps = {
-    chordsText: string,
     mousePosition?:{px:number, index:number},
     ref?:Ref<HTMLDivElement>,
 
     mouseHovering ?: boolean,
     popoverOpen : boolean,
+    hoveringEmpty ?: boolean,
 
-    onSpaceClick?: (state:boolean) => void,
+    chordsPositions : string[],
+
+    onMouseClick?: (state:boolean) => void,
     onPickChord?: (chord:string) => void,
 
 }
 
 export const VerseChords = (
-    { ref, chordsText, mousePosition, popoverOpen,  mouseHovering=false, onSpaceClick, onPickChord, ...props } : VerseChordsProps & React.HTMLAttributes<HTMLDivElement>
+    { ref, mousePosition, popoverOpen, hoveringEmpty = true, mouseHovering=false, chordsPositions, onMouseClick, onPickChord, ...props } : VerseChordsProps & React.HTMLAttributes<HTMLDivElement>
 ) => {
 
     return (
@@ -25,24 +27,47 @@ export const VerseChords = (
             className="relative whitespace-pre font-mono cursor-pointer"
             onClick={props.onClick}
             onMouseMove={props.onMouseMove}
+            onMouseLeave={props.onMouseLeave}
         >
-            <div className="font-bold" onMouseLeave={props.onMouseLeave}>{chordsText}</div>
+            {
+                chordsPositions.map((chord, index) => {
+                    if(chord!==" ") return (
+                        <span className="font-bold hover:text-orange-500 z-10" key={index}>{chord}</span>
+                    )
+                    return chord
+                })
+            }
             <ChordPopover
                 open = {popoverOpen}
-                onTrigger={onSpaceClick}
+                onTrigger={onMouseClick}
                 onPickChord={onPickChord}
             >
                 {(mouseHovering || popoverOpen) &&
-                    <div 
-                        className="absolute
-                        bg-gray-400 h-[100%] top-0 cursor-pointer rounded-full" 
-                        style={{
-                            left: `${mousePosition && `${mousePosition.px}px`}`,
-                            width: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}`,
-                            height: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}` ,
-                            top: `8px`
-                        }}
-                    ></div>
+                    <div >
+                        {
+                            hoveringEmpty ? 
+                            (
+                                <div 
+                                    className="absolute bg-gray-400 h-[100%] top-0 cursor-pointer rounded-full" 
+                                    style={{
+                                        left: `${mousePosition && `${mousePosition.px}px`}`,
+                                        width: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}`,
+                                        height: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}` ,
+                                        top: `8px`,
+                                    }}
+                                ></div>
+                            ) : 
+                            (
+                                <div 
+                                    className="absolute h-[100%] top-0 cursor-pointer z-0" 
+                                    style={{
+                                        left: `${mousePosition && `${mousePosition.px}px`}`,
+                                        width: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}`,
+                                    }}
+                                ></div>
+                            )
+                        }
+                    </div>
                 }
             </ChordPopover>
             

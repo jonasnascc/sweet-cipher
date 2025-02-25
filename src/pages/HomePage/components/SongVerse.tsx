@@ -7,9 +7,10 @@ type SongVerseProps = {
 
 export const SongVerse = ({text} : SongVerseProps) => {
     const {
+        chordsPositions,
         isPopoverOpen,
         isMouseHovering,
-        chordsText,
+        isHoveringEmpty,
         verseDivRef,
         verseChordsDivRef,
         mousePosition,
@@ -22,18 +23,20 @@ export const SongVerse = ({text} : SongVerseProps) => {
     if(!text) return null
     return (
         <div className="flex flex-col items-start">
+            {/* {JSON.stringify({cp: chordsPositions, len: chordsPositions.join("").replace(/#/g, "").length, ...mousePosition,isMouseHovering, isPopoverOpen})} */}
             <VerseChords 
+                chordsPositions={chordsPositions}
                 mouseHovering={isMouseHovering}
+                hoveringEmpty={isHoveringEmpty}
                 popoverOpen={isPopoverOpen}
                 ref={verseChordsDivRef}
-                chordsText={chordsText} 
                 mousePosition={mousePosition}
                 onMouseMove={handleMouseMove}
-                onSpaceClick={handleMouseClick}
+                onMouseClick={handleMouseClick}
                 onMouseLeave={handleMouseLeave}
                 onPickChord={onPickChord}
             />
-            <div ref={verseDivRef}>{text}</div>
+            <div className="ml-10" ref={verseDivRef}>{text}</div>
         </div>
     )
 }

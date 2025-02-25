@@ -1,9 +1,10 @@
-import { ReactNode, useState } from "react"
+import { ReactNode } from "react"
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
+import { TrashCanIcon } from "@/shared/components/TrashCanIcon"
 
 type ChordPopoverProps = {
     open:boolean,
@@ -16,6 +17,10 @@ export const ChordPopover = ({children, open, onPickChord= (name:string) => {}, 
 
     const handleTrigger = (isOpen:boolean) => {
         if(onTrigger) onTrigger(isOpen);
+    }
+
+    const handleDelete = () => {
+        onPickChord(" ")
     }
     
     return (
@@ -30,9 +35,19 @@ export const ChordPopover = ({children, open, onPickChord= (name:string) => {}, 
             <PopoverContent 
                 side="top" 
                 align="center" 
-                className="w-15 h-30 overflow-auto p-0"
+                className="w-15 h-35 p-0 rounded-full"
             >
-                <ChordList onPickChord={onPickChord}/>
+                <div className="flex flex-col h-[100%] gap-1">
+                    <div className="h-[100%] overflow-auto"><ChordList onPickChord={onPickChord}/></div>
+                    <div className="">
+                        <button 
+                            className="flex items-center justify-center rounded-sm w-[100%] cursor-pointer bg-red-700 p-1 text-white"
+                            onClick={handleDelete}
+                        >
+                            <TrashCanIcon/>
+                        </button>
+                    </div>
+                </div>
             </PopoverContent>
             </Popover>
         </div>
