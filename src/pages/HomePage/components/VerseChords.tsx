@@ -13,7 +13,7 @@ type VerseChordsProps = {
     chordsPositions : string[],
 
     onMouseClick?: (state:boolean) => void,
-    onPickChord?: (chord:string) => void,
+    onPickChord: (chord:string) => void,
 
 }
 
@@ -43,31 +43,15 @@ export const VerseChords = (
                 onPickChord={onPickChord}
             >
                 {(mouseHovering || popoverOpen) &&
-                    <div >
-                        {
-                            hoveringEmpty ? 
-                            (
-                                <div 
-                                    className="absolute bg-gray-400 h-[100%] top-0 cursor-pointer rounded-full" 
-                                    style={{
-                                        left: `${mousePosition && `${mousePosition.px}px`}`,
-                                        width: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}`,
-                                        height: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}` ,
-                                        top: `8px`,
-                                    }}
-                                ></div>
-                            ) : 
-                            (
-                                <div 
-                                    className="absolute h-[100%] top-0 cursor-pointer z-0" 
-                                    style={{
-                                        left: `${mousePosition && `${mousePosition.px}px`}`,
-                                        width: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}`,
-                                    }}
-                                ></div>
-                            )
-                        }
-                    </div>
+                    <div 
+                        className="absolute bg-gray-400 h-[100%] top-0 cursor-pointer rounded-full" 
+                        style={{
+                            left: `${mousePosition && `${mousePosition.px}px`}`,
+                            width: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}`,
+                            height: `${mousePosition && `${mousePosition.px/mousePosition.index}px`}` ,
+                            top: `8px`,
+                        }}
+                    ></div>
                 }
             </ChordPopover>
             
