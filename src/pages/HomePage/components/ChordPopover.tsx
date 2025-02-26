@@ -9,11 +9,11 @@ import { TrashCanIcon } from "@/shared/components/TrashCanIcon"
 type ChordPopoverProps = {
     open:boolean,
     onTrigger?: (isOpen: boolean) => void
-    onPickChord ?: (chord:string) => void,
+    onPickChord : (chord:string) => void,
     children: ReactNode
 }
 
-export const ChordPopover = ({children, open, onPickChord= (name:string) => {}, onTrigger} : ChordPopoverProps) => {
+export const ChordPopover = ({children, open, onPickChord, onTrigger} : ChordPopoverProps) => {
 
     const handleTrigger = (isOpen:boolean) => {
         if(onTrigger) onTrigger(isOpen);
@@ -35,7 +35,6 @@ export const ChordPopover = ({children, open, onPickChord= (name:string) => {}, 
             <PopoverContent 
                 side="top" 
                 align="center" 
-                className="w-15 h-35 p-0 rounded-full"
             >
                 <div className="flex flex-col h-[100%] gap-1">
                     <div className="h-[100%] overflow-auto"><ChordList onPickChord={onPickChord}/></div>
